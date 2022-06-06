@@ -47,7 +47,7 @@
 
     if (reversedClientId == nil) {
         NSDictionary *errorDetails = @{@"status": @"error", @"message": @"Could not find REVERSED_CLIENT_ID url scheme in app .plist"};
-        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:errorDetails]];
+        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:errorDetails];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:_callbackId];
         return;
     }
@@ -61,7 +61,7 @@
     [signIn signInWithConfiguration:config presentingViewController:self.viewController callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
         if (error) {
             NSDictionary *errorDetails = @{@"status": @"error", @"message": error.localizedDescription};
-            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:errorDetails]];
+            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:errorDetails];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:self->_callbackId];
         } else {
             NSString *email = user.profile.email;
@@ -80,7 +80,7 @@
 
             NSDictionary *response = @{@"message": result, @"status": @"success"};
             
-            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [self toJSONString:response]];
+            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:self->_callbackId];
         }
     }];
@@ -113,7 +113,7 @@
 - (void) signOut:(CDVInvokedUrlCommand*)command {
     [GIDSignIn.sharedInstance signOut];
     NSDictionary *details = @{@"status": @"success", @"message": @"Logged out"};
-    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[self toJSONString:details]];
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:details];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
@@ -121,11 +121,11 @@
     [GIDSignIn.sharedInstance disconnectWithCallback:^(NSError * _Nullable error) {
         if(error == nil) {
             NSDictionary *details = @{@"status": @"success", @"message": @"Disconnected"};
-            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[self toJSONString:details]];
+            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:details];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         } else {
             NSDictionary *details = @{@"status": @"error", @"message": [error localizedDescription]};
-            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:details]];
+            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:details];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }
     }];
@@ -134,7 +134,7 @@
 - (void) isSignedIn:(CDVInvokedUrlCommand*)command {
     bool isSignedIn = [GIDSignIn.sharedInstance currentUser] != nil;
     NSDictionary *details = @{@"status": @"success", @"message": (isSignedIn) ? @"true" : @"false"};
-    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[self toJSONString:details]];
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[details];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
