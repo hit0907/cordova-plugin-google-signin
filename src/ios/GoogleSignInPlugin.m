@@ -53,8 +53,9 @@
     }
 
     NSString *clientId = [self reverseUrlScheme:reversedClientId];
+    NSString *webClientId = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GoogleSigninWebClientId"]];
 
-    GIDConfiguration *config = [[GIDConfiguration alloc] initWithClientID:clientId];
+    GIDConfiguration *config = [[GIDConfiguration alloc] initWithClientID:clientId serverClientID:webClientId];
     
     GIDSignIn *signIn = GIDSignIn.sharedInstance;
     
@@ -71,6 +72,7 @@
                            @"email"            : email,
                            @"id"               : userId,
                            @"id_token"         : user.authentication.idToken,
+                           @"json_web_token"   : user.authentication.idToken,
                            @"display_name"     : user.profile.name       ? : [NSNull null],
                            @"given_name"       : user.profile.givenName  ? : [NSNull null],
                            @"family_name"      : user.profile.familyName ? : [NSNull null],
@@ -134,7 +136,7 @@
 - (void) isSignedIn:(CDVInvokedUrlCommand*)command {
     bool isSignedIn = [GIDSignIn.sharedInstance currentUser] != nil;
     NSDictionary *details = @{@"status": @"success", @"message": (isSignedIn) ? @"true" : @"false"};
-    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[details];
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:details];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
