@@ -73,6 +73,7 @@
                            @"id"               : userId,
                            @"id_token"         : user.authentication.idToken,
                            @"json_web_token"   : user.authentication.idToken,
+                           @"serverAuthCode"   : user.serverAuthCode ? : [NSNull null],
                            @"display_name"     : user.profile.name       ? : [NSNull null],
                            @"given_name"       : user.profile.givenName  ? : [NSNull null],
                            @"family_name"      : user.profile.familyName ? : [NSNull null],

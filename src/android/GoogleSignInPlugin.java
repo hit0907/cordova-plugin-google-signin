@@ -216,6 +216,9 @@ public class GoogleSignInPlugin extends CordovaPlugin {
                                 userInfo.put("photo_url", user.getPhotoUrl());
                                 userInfo.put("id_token", getTokenResult.getToken());
                                 userInfo.put("json_web_token", googleIdToken);
+                                if (account != null) {
+                                    userInfo.put("serverAuthCode", account.getServerAuthCode());
+                                }
                                 sendSuccessMessage(userInfo);
                             } catch (Exception ex) {
                                 sendErrorMessage(ex.getMessage());

@@ -58,7 +58,8 @@ cordova.plugins.GoogleSignInPlugin.signIn(
     //     "email": "",
     //     "photo_url": "",
     //     "id_token": "",
-    //     "json_web_token": ""
+    //     "json_web_token": "",
+    //     "serverAuthCode": ""
     //   }
     // }
     console.log(authData);
